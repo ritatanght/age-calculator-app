@@ -16,7 +16,7 @@ export default {
 .column {
   font-family: poppins-700;
   letter-spacing: 2px;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 label {
   display: block;

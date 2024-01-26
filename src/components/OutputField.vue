@@ -19,7 +19,13 @@ div {
   margin-block: -0.3em;
 }
 span.value {
-  letter-spacing: 10px;
   color: hsl(259, 100%, 65%);
+  margin-right: 0.2em;
+}
+
+@media screen and (max-width: 500px) {
+  div {
+    font-size: 3rem;
+  }
 }
 </style>

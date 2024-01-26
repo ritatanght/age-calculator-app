@@ -84,7 +84,7 @@ export default {
 .container {
   background-color: white;
   border-radius: 10px 10px 80px;
-  padding: 2em;
+  padding: 1.5em;
   max-width: 700px;
 }
 form {
@@ -117,5 +117,22 @@ form {
 
 .output {
   margin-block: 2em;
+}
+
+@media screen and (max-width: 500px) {
+  .columns {
+    width: 100%;
+  }
+  .submit-btn {
+    right: 50%;
+    transform: translateX(50%);
+  }
+  .output {
+    margin-top: 4em;
+  }
+
+  .container {
+    width: 90%;
+  }
 }
 </style>
