@@ -5,9 +5,9 @@ export default {
   data() {
     return {
       inputs: [
-        { label: "DAY", placeholder: "DD", value: "" },
-        { label: "MONTH", placeholder: "MM", value: "" },
-        { label: "YEAR", placeholder: "YYYY", value: "" },
+        { label: "DAY", placeholder: "DD", fieldVal: "", errorMsg: "" },
+        { label: "MONTH", placeholder: "MM", fieldVal: "", errorMsg: "" },
+        { label: "YEAR", placeholder: "YYYY", fieldVal: "", errorMsg: "" },
       ],
       outputs: [
         { value: "--", unit: "years" },
@@ -20,18 +20,30 @@ export default {
     InputField,
     OutputField,
   },
+  methods: {
+    submitForm(event) {
+      event.preventDefault();
+
+      console.log(this.inputs);
+    },
+    receiveInputChange(inputObj) {
+      const { label, value } = inputObj;
+      this.inputs.find((input) => input.label === label).fieldVal = value;
+    },
+  },
 };
 </script>
 
 <template>
   <div class="container">
-    <form>
+    <form @submit="submitForm">
       <div class="columns">
         <InputField
           v-for="input in inputs"
           :key="input.label"
           :label="input.label"
           :placeholder="input.placeholder"
+          @input-change="receiveInputChange"
         ></InputField>
       </div>
       <button class="submit-btn" aria-label="submit">

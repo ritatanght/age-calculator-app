@@ -1,7 +1,12 @@
 <template>
   <div class="column">
     <label :for="label"> {{ label }}</label>
-    <input :placeholder="placeholder" :id="label" />
+    <input
+      :placeholder="placeholder"
+      :id="label"
+      v-model="value"
+      @input="onInputChange"
+    />
   </div>
 </template>
 
@@ -9,6 +14,20 @@
 export default {
   name: "InputField",
   props: ["label", "placeholder"],
+  emits: ["input-change"],
+  data() {
+    return {
+      value: "",
+    };
+  },
+  methods: {
+    onInputChange() {
+      this.$emit("input-change", {
+        label: this.label,
+        value: this.value,
+      });
+    },
+  },
 };
 </script>
 
