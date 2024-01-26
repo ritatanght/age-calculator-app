@@ -59,4 +59,9 @@ span {
   font-family: poppins-400i;
   color: hsl(0, 100%, 67%);
 }
+@media screen and (max-width: 500px) {
+  input {
+    font-size: 1.2rem;
+  }
+}
 </style>
