@@ -1,5 +1,6 @@
 <script>
 import InputField from "./components/InputField.vue";
+import OutputField from "./components/OutputField.vue";
 export default {
   data() {
     return {
@@ -8,10 +9,16 @@ export default {
         { label: "MONTH", placeholder: "MM", value: "" },
         { label: "YEAR", placeholder: "YYYY", value: "" },
       ],
+      outputs: [
+        { value: "--", unit: "years" },
+        { value: "--", unit: "months" },
+        { value: "--", unit: "days" },
+      ],
     };
   },
   components: {
     InputField,
+    OutputField,
   },
 };
 </script>
@@ -22,6 +29,7 @@ export default {
       <div class="columns">
         <InputField
           v-for="input in inputs"
+          :key="input.label"
           :label="input.label"
           :placeholder="input.placeholder"
         ></InputField>
@@ -30,6 +38,14 @@ export default {
         <img src="/assets/images/icon-arrow.svg" alt="" class="down-arrow" />
       </button>
     </form>
+    <div class="output">
+      <OutputField
+        v-for="(output, idx) in outputs"
+        :key="idx"
+        :value="output.value"
+        :unit="output.unit"
+      ></OutputField>
+    </div>
   </div>
 </template>
 
@@ -69,7 +85,7 @@ export default {
   background-color: white;
   border-radius: 10px 10px 80px;
   padding: 2em;
-  max-width: 800px;
+  max-width: 700px;
 }
 form {
   font-family: poppins-700;
@@ -90,12 +106,16 @@ form {
   padding: 1.2em;
   border-radius: 50%;
   position: absolute;
-  bottom: -25%;
+  bottom: -20%;
   right: 0;
   cursor: pointer;
 }
 
 .down-arrow {
   max-width: 30px;
+}
+
+.output {
+  margin-block: 2em;
 }
 </style>
