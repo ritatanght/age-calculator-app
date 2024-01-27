@@ -23,12 +23,71 @@ export default {
   methods: {
     submitForm(event) {
       event.preventDefault();
+      // validation of individual field
+      this.inputs.forEach((input) => this.validateField(input));
 
+      // validation of date
+      const dayField = this.inputs.find((input) => input.label === "DAY");
+      if (!dayField.errorMsg) {
+        dayField.errorMsg = this.validateDate(
+          this.inputs.map((input) => Number(input.fieldVal))
+        );
+      }
+
+      const errors = this.inputs.filter((item) =>
+        Boolean(item.errorMsg)
+      ).length;
+      if (errors > 0) return;
       console.log(this.inputs);
     },
     receiveInputChange(inputObj) {
       const { label, value } = inputObj;
       this.inputs.find((input) => input.label === label).fieldVal = value;
+    },
+    validateField(input) {
+      // reset the errorMsg to "" before validation
+      input.errorMsg = "";
+
+      // Any field is empty when the form is submitted
+      if (!input.fieldVal) input.errorMsg = "This field is required";
+
+      const value = Number(input.fieldVal);
+      if (isNaN(value))
+        input.errorMsg = `Must be a valid ${input.label.toLowerCase()}`;
+
+      // The day number is not between 1-31
+      if (input.label === "DAY" && (value < 0 || value > 31))
+        input.errorMsg = "Must be a valid day";
+
+      // The month number is not between 1-12
+      if (input.label === "MONTH" && (value < 0 || value > 12))
+        input.errorMsg = "Must be a valid month";
+
+      // The year is in the future
+      const currentYear = new Date().getFullYear();
+      if (input.label === "YEAR" && value > currentYear)
+        input.errorMsg = "Must be in the past";
+    },
+    validateDate(date) {
+      const [day, month, year] = date;
+
+      if (month === 2) {
+        // calculate if the year is a leap year to determine the valid date
+        const isLeapYear =
+          year % 4 === 0 || (year % 400 === 0 && year % 100 === 0);
+        if ((isLeapYear && day > 29) || (!isLeapYear && day > 28))
+          return "Must be a valid date";
+      }
+
+      if ([4, 6, 9, 11].includes(month) && day > 30) {
+        return "Must be a valid date";
+      }
+
+      if (new Date().getTime() < new Date(year, month - 1, day).getTime()) {
+        return "Must be in the past";
+      }
+
+      return "";
     },
   },
 };
@@ -43,6 +102,7 @@ export default {
           :key="input.label"
           :label="input.label"
           :placeholder="input.placeholder"
+          :errorMsg="input.errorMsg"
           @input-change="receiveInputChange"
         ></InputField>
       </div>
@@ -109,7 +169,7 @@ form {
 .columns {
   display: flex;
   gap: 5%;
-  width: 70%;
+  width: 80%;
 }
 
 .submit-btn {
@@ -118,7 +178,7 @@ form {
   padding: 1.2em;
   border-radius: 50%;
   position: absolute;
-  bottom: -20%;
+  top: 85%;
   right: 0;
   cursor: pointer;
 }
