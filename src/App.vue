@@ -26,18 +26,23 @@ export default {
       // validation of individual field
       this.inputs.forEach((input) => this.validateField(input));
 
-      // validation of date
-      const dayField = this.inputs.find((input) => input.label === "DAY");
-      if (!dayField.errorMsg) {
-        dayField.errorMsg = this.validateDate(
-          this.inputs.map((input) => Number(input.fieldVal))
-        );
-      }
-
       const errors = this.inputs.filter((item) =>
         Boolean(item.errorMsg)
       ).length;
       if (errors > 0) return;
+
+      // validation of date
+      const [day, month, year] = this.inputs.map((input) =>
+        Number(input.fieldVal)
+      );
+      const dateError = this.validateDate([day, month, year]);
+
+      if (dateError) {
+        const dayField = this.inputs.find((input) => input.label === "DAY");
+        dayField.errorMsg = dateError;
+        return;
+      }
+
       console.log(this.inputs);
     },
     receiveInputChange(inputObj) {
