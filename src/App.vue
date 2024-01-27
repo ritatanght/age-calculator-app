@@ -1,6 +1,6 @@
 <script>
 import InputField from "./components/InputField.vue";
-import OutputField from "./components/OutputField.vue";
+import OutputList from "./components/OutputList.vue";
 export default {
   data() {
     return {
@@ -18,7 +18,7 @@ export default {
   },
   components: {
     InputField,
-    OutputField,
+    OutputList,
   },
   methods: {
     submitForm(event) {
@@ -130,12 +130,7 @@ export default {
       </button>
     </form>
     <div class="output">
-      <OutputField
-        v-for="(output, idx) in outputs"
-        :key="idx"
-        :value="output.value"
-        :unit="output.unit"
-      ></OutputField>
+      <OutputList :outputs="outputs"></OutputList>
     </div>
   </div>
 </template>
