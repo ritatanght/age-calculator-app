@@ -55,6 +55,11 @@ input {
   border-color: hsl(0, 0%, 86%);
   font-family: poppins-700;
 }
+input:focus {
+  outline-color: hsl(259, 100%, 65%);
+  caret-color: hsl(259, 100%, 65%);
+}
+
 input.error {
   border-width: 2px;
   border-color: hsl(0, 100%, 67%);

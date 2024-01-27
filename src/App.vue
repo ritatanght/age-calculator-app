@@ -195,6 +195,10 @@ form {
   top: 85%;
   right: 0;
   cursor: pointer;
+  transition: 0.3s background-color;
+}
+.submit-btn:hover {
+  background-color: hsl(0, 0%, 8%);
 }
 
 .down-arrow {
