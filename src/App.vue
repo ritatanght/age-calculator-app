@@ -29,7 +29,10 @@ export default {
       const errors = this.inputs.filter((item) =>
         Boolean(item.errorMsg)
       ).length;
-      if (errors > 0) return;
+      if (errors > 0) {
+        this.outputError();
+        return;
+      }
 
       // validation of date
       const [day, month, year] = this.inputs.map((input) =>
@@ -40,6 +43,7 @@ export default {
       if (dateError) {
         const dayField = this.inputs.find((input) => input.label === "DAY");
         dayField.errorMsg = dateError;
+        this.outputError();
         return;
       }
 
@@ -107,6 +111,9 @@ export default {
       }
 
       return "";
+    },
+    outputError() {
+      this.outputs.forEach((output) => (output.value = "--"));
     },
   },
 };
