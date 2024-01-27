@@ -43,7 +43,21 @@ export default {
         return;
       }
 
-      console.log(this.inputs);
+      // calculate output
+      const currentTime = new Date().getTime();
+      const birthTime = new Date(year, month - 1, day).getTime();
+      let diffInS = (currentTime - birthTime) / 1000;
+
+      const yearAmt = Math.floor(diffInS / (365 * 24 * 60 * 60));
+      diffInS -= yearAmt * (365 * 24 * 60 * 60);
+      const monthAmt = Math.floor(diffInS / (30 * 24 * 60 * 60));
+      diffInS -= monthAmt * (30 * 24 * 60 * 60);
+      const dayAmt = Math.floor(diffInS / (24 * 60 * 60));
+      this.outputs.forEach((output) => {
+        if (output.unit === "years") output.value = yearAmt;
+        if (output.unit === "months") output.value = monthAmt;
+        if (output.unit === "days") output.value = dayAmt;
+      });
     },
     receiveInputChange(inputObj) {
       const { label, value } = inputObj;
