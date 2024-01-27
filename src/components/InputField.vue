@@ -1,19 +1,21 @@
 <template>
   <div class="column">
-    <label :for="label"> {{ label }}</label>
+    <label :for="label" :class="{ error: errorMsg }"> {{ label }}</label>
     <input
       :placeholder="placeholder"
       :id="label"
       v-model="value"
       @input="onInputChange"
+      :class="{ error: errorMsg }"
     />
+    <span v-if="errorMsg" class="error">{{ errorMsg }}</span>
   </div>
 </template>
 
 <script>
 export default {
   name: "InputField",
-  props: ["label", "placeholder"],
+  props: ["label", "placeholder", "errorMsg"],
   emits: ["input-change"],
   data() {
     return {
@@ -36,6 +38,7 @@ export default {
   font-family: poppins-700;
   letter-spacing: 2px;
   font-size: 0.8rem;
+  flex-basis: 30%;
 }
 label {
   display: block;
@@ -52,11 +55,18 @@ input {
   border-color: hsl(0, 0%, 86%);
   font-family: poppins-700;
 }
+input.error {
+  border-width: 2px;
+  border-color: hsl(0, 100%, 67%);
+}
 input::placeholder {
   color: hsl(0, 0%, 86%);
 }
 span {
   font-family: poppins-400i;
+  letter-spacing: 0;
+}
+.error {
   color: hsl(0, 100%, 67%);
 }
 @media screen and (max-width: 500px) {
